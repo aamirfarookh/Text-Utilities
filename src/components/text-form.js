@@ -7,6 +7,7 @@ export default function Textform(props) {
 
   const handleUpCase = () => {
     setText(text.toUpperCase());
+    props.alert("Changed to UpperCase!","success");
   };
 
   const handleOnChange = (event) => {
@@ -15,9 +16,11 @@ export default function Textform(props) {
 
   const handleLoCase = () => {
     setText(text.toLowerCase());
+    props.alert("Changed to LowerCase!","success");
   };
   const handleClearText = () => {
     setText("");
+    props.alert("Text cleared!","warning");
   };
 
   const handleCopyText = (e) => {
@@ -26,6 +29,7 @@ export default function Textform(props) {
     e.target.focus();
 
     setCopySuccess("Copied!");
+    props.alert("Copied to clipboard!","success");
   };
 
   return (
@@ -50,36 +54,39 @@ export default function Textform(props) {
             }}
           ></textarea>
         </div>
-        <div className="btn-group" role="group" aria-label="Basic example">
+        <div className="d-grid gap-2 d-md-block" role="group" aria-label="Basic example">
           <button
             type="button"
-            className="btn btn-primary"
+            className="btn btn-primary mx-3"
             onClick={handleUpCase}
             style={{
-              backgroundColor: props.mode === "dark" ? "black" : "blue",
+              backgroundColor: props.mode === "dark" ? "grey" : "blue",
               border: "none",
+              
             }}
           >
-            Change to UPPER
+            Change to UpperCase
           </button>
           <button
             type="button"
             className="btn btn-primary mx-3"
             onClick={handleLoCase}
             style={{
-              backgroundColor: props.mode === "dark" ? "black" : "blue",
+              backgroundColor: props.mode === "dark" ? "grey" : "blue",
               border: "none",
+              
             }}
           >
-            Change to lower
+            Change to LowerCase
           </button>
           <button
             type="button"
             className="btn btn-primary mx-3"
             onClick={handleClearText}
             style={{
-              backgroundColor: props.mode === "dark" ? "black" : "blue",
+              backgroundColor: props.mode === "dark" ? "grey" : "blue",
               border: "none",
+              
             }}
           >
             Clear Text
@@ -89,8 +96,9 @@ export default function Textform(props) {
             className="btn btn-primary mx-3"
             onClick={handleCopyText}
             style={{
-              backgroundColor: props.mode === "dark" ? "black" : "blue",
+              backgroundColor: props.mode === "dark" ? "grey" : "blue",
               border: "none",
+              
             }}
           >
             Copy Text
