@@ -6,31 +6,55 @@ export default function Textform(props) {
   const textAreaRef = useRef(null);
 
   const handleUpCase = () => {
+    if(text.length!==0){
     setText(text.toUpperCase());
     props.alert("Changed to UpperCase!","success");
-  };
+  }else {
+    props.alert("Enter text to change to UpperCase","warning");
+  }
+};
 
   const handleOnChange = (event) => {
     setText(event.target.value);
   };
 
   const handleLoCase = () => {
+    if(text.length!==0){
     setText(text.toLowerCase());
     props.alert("Changed to LowerCase!","success");
-  };
+  }else{
+    props.alert("Enter text to change to LowerCase","warning")
+  }
+};
   const handleClearText = () => {
+    if(text.length!==0){
     setText("");
-    props.alert("Text cleared!","warning");
-  };
+    props.alert("Text cleared!","success");
+  }else{
+    props.alert("Nothing to clear!","warning")
+  }
+};
 
   const handleCopyText = (e) => {
+    if(text.length!==0){
     textAreaRef.current.select();
     document.execCommand("copy");
     e.target.focus();
 
     setCopySuccess("Copied!");
     props.alert("Copied to clipboard!","success");
-  };
+  }else{
+    props.alert("Nothing to copy!","warning")
+  }
+};
+
+  const handleSpaces =()=>{
+    if(text.match(/\s{2,}/g)){
+    setText(text.replace(/\s{2,}/g, ' ').trim());
+    props.alert("Extra Spaces removed!","success")
+  }else{
+    props.alert("No extra spaces!","warning")
+  }}
 
   return (
     <>
@@ -48,7 +72,7 @@ export default function Textform(props) {
             rows="8"
             ref={textAreaRef}
             style={{
-              backgroundColor: props.mode === "dark" ? "grey" : "whitesmoke",
+              backgroundColor: props.mode === "dark" ? "rgb(11 62 104)" : "whitesmoke",
               color: props.mode === "dark" ? "white" : "black",
               border: "1px solid black",
             }}
@@ -60,7 +84,7 @@ export default function Textform(props) {
             className="btn btn-primary mx-3"
             onClick={handleUpCase}
             style={{
-              backgroundColor: props.mode === "dark" ? "grey" : "blue",
+              backgroundColor: props.mode === "dark" ? "rgb(11 62 104)" : "blue",
               border: "none",
               
             }}
@@ -72,7 +96,7 @@ export default function Textform(props) {
             className="btn btn-primary mx-3"
             onClick={handleLoCase}
             style={{
-              backgroundColor: props.mode === "dark" ? "grey" : "blue",
+              backgroundColor: props.mode === "dark" ? "rgb(11 62 104)" : "blue",
               border: "none",
               
             }}
@@ -84,7 +108,7 @@ export default function Textform(props) {
             className="btn btn-primary mx-3"
             onClick={handleClearText}
             style={{
-              backgroundColor: props.mode === "dark" ? "grey" : "blue",
+              backgroundColor: props.mode === "dark" ? "rgb(11 62 104)" : "blue",
               border: "none",
               
             }}
@@ -96,12 +120,24 @@ export default function Textform(props) {
             className="btn btn-primary mx-3"
             onClick={handleCopyText}
             style={{
-              backgroundColor: props.mode === "dark" ? "grey" : "blue",
+              backgroundColor: props.mode === "dark" ? "rgb(11 62 104)" : "blue",
               border: "none",
               
             }}
           >
             Copy Text
+          </button>
+          <button
+            type="button"
+            className="btn btn-primary mx-3"
+            onClick={handleSpaces}
+            style={{
+              backgroundColor: props.mode === "dark" ? "rgb(11 62 104)" : "blue",
+              border: "none",
+              
+            }}
+          >
+            Remove Extra Spaces
           </button>
         </div>
       </div>
@@ -111,9 +147,9 @@ export default function Textform(props) {
       >
         <h2>Your text summary is here</h2>
         <p>
-          {text.split(" ").length - 1} words and {text.length} characters
+          {text.split(" ").filter((element)=>{return element.length!==0}).length} words and {text.length} characters
         </p>
-        <p>{0.008 * text.trim().split(" ").length} read minutes</p>
+        <p>{0.008 * text.split(" ").filter((element)=>{return element.length!==0}).length} read minutes</p>
         <h2>Text preview</h2>
         <p>{text.length > 0 ? text : "Enter text above to preview it here."}</p>
       </div>
