@@ -2,7 +2,6 @@ import React, { useRef, useState } from "react";
 
 export default function Textform(props) {
   const [text, setText] = useState("");
-  const [copySuccess, setCopySuccess] = useState("");
   const textAreaRef = useRef(null);
 
   const handleUpCase = () => {
@@ -24,7 +23,7 @@ export default function Textform(props) {
     props.alert("Changed to LowerCase!","success");
   }else{
     props.alert("Enter text to change to LowerCase","warning")
-  }
+  };
 };
   const handleClearText = () => {
     if(text.length!==0){
@@ -37,15 +36,11 @@ export default function Textform(props) {
 
   const handleCopyText = (e) => {
     if(text.length!==0){
-    textAreaRef.current.select();
-    document.execCommand("copy");
-    e.target.focus();
-
-    setCopySuccess("Copied!");
+    navigator.clipboard.writeText(text)
     props.alert("Copied to clipboard!","success");
   }else{
     props.alert("Nothing to copy!","warning")
-  }
+  };
 };
 
   const handleSpaces =()=>{
@@ -54,7 +49,7 @@ export default function Textform(props) {
     props.alert("Extra Spaces removed!","success")
   }else{
     props.alert("No extra spaces!","warning")
-  }}
+  }};
 
   return (
     <>
@@ -62,7 +57,7 @@ export default function Textform(props) {
         className="container my-4"
         style={{ color: props.mode === "dark" ? "whitesmoke" : "black" }}
       >
-        <h1>{props.heading}</h1>
+        <h1 className="mb-4">{props.heading}</h1>
         <div className="mb-3">
           <textarea
             className="form-control"
@@ -147,7 +142,7 @@ export default function Textform(props) {
       >
         <h2>Your text summary is here</h2>
         <p>
-          {text.split(" ").filter((element)=>{return element.length!==0}).length} words and {text.length} characters
+          {text.split(/\s+/).filter((element)=>{return element.length!==0}).length} words and {text.length} characters
         </p>
         <p>{0.008 * text.split(" ").filter((element)=>{return element.length!==0}).length} read minutes</p>
         <h2>Text preview</h2>
